@@ -2,20 +2,12 @@ package com.example.theatrum
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.Window
-import android.view.WindowManager
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,12 +26,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        bottom_navigation.setOnNavigationItemSelectedListener(onBottomNavListener)
-
-        var fr = supportFragmentManager.beginTransaction()
-        fr.add(R.id.fl_fragment, HomeFragment())
-        fr.commit()
 
         popularMovies = findViewById(R.id.popular_movies)
         popularMoviesLayoutMgr = LinearLayoutManager(
@@ -64,28 +50,6 @@ class MainActivity : AppCompatActivity() {
         getPopularMovies()
         getUpcomingMovies()
 
-    }
-
-    private val onBottomNavListener = BottomNavigationView.OnNavigationItemSelectedListener {i->
-        var selectedFr: Fragment = HomeFragment()
-
-        when(i.itemId) {
-            R.id.item_home -> {
-                selectedFr = HomeFragment()
-            }
-
-            R.id.item_ticket -> {
-                selectedFr = TicketFragment()
-            }
-
-            R.id.item_profile -> {
-                selectedFr = ProfileFragment()
-            }
-        }
-        var fr = supportFragmentManager.beginTransaction()
-        fr.replace(R.id.fl_fragment, selectedFr)
-        fr.commit()
-        true
     }
 
     private fun getPopularMovies() {
