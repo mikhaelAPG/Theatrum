@@ -3,9 +3,7 @@ package com.example.theatrum
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -29,9 +27,9 @@ class MainActivity : AppCompatActivity() {
 
         popularMovies = findViewById(R.id.popular_movies)
         popularMoviesLayoutMgr = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
+                this,
+                LinearLayoutManager.HORIZONTAL,
+                false
         )
         popularMovies.layoutManager = popularMoviesLayoutMgr
         popularMoviesAdapter = MoviesAdapter(mutableListOf()) { movie -> showMovieDetails(movie) }
@@ -39,9 +37,9 @@ class MainActivity : AppCompatActivity() {
 
         upcomingMovies = findViewById(R.id.upcoming_movies)
         upcomingMoviesLayoutMgr = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
+                this,
+                LinearLayoutManager.HORIZONTAL,
+                false
         )
         upcomingMovies.layoutManager = upcomingMoviesLayoutMgr
         upcomingMoviesAdapter = MoviesAdapter(mutableListOf()) { movie -> showMovieDetails(movie) }
@@ -54,17 +52,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun getPopularMovies() {
         MoviesRepository.getPopularMovies(
-            popularMoviesPage,
-            ::onPopularMoviesFetched,
-            ::onError
+                popularMoviesPage,
+                ::onPopularMoviesFetched,
+                ::onError
         )
     }
 
     private fun getUpcomingMovies() {
         MoviesRepository.getUpcomingMovies(
-            upcomingMoviesPage,
-            ::onUpcomingMoviesFetched,
-            ::onError
+                upcomingMoviesPage,
+                ::onUpcomingMoviesFetched,
+                ::onError
         )
     }
 
