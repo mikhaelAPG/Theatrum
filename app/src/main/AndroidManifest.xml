@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_theatrum_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Theatrum">
+        <activity android:name=".MovieDetailsActivity"></activity>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
@@ -30,9 +31,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="http"
                     android:host="www.theatrum-app.com"
-                    android:pathPattern="/movie" />
+                    android:pathPattern="/movie"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
     </application>
