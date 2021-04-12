@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.theatrum.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:name="com.example.theatrum.ui.ticket.TicketFragment"
+        android:label="@string/title_ticket"
         tools:layout="@layout/fragment_ticket" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.theatrum.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:name="com.example.theatrum.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
