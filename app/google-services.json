@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "715392573290",
+    "project_id": "theatrum-bf947",
+    "storage_bucket": "theatrum-bf947.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:715392573290:android:9a17f74ff331b682eb8f13",
+        "android_client_info": {
+          "package_name": "com.example.theatrum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "715392573290-mvpmf07vd4ueong279svcaqfalsmt210.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwMIwn8mtnxBk3jHHzkbJWVBpUBVD_40w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "715392573290-mvpmf07vd4ueong279svcaqfalsmt210.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
