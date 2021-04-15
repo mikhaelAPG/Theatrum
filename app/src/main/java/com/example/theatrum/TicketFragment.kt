@@ -13,13 +13,4 @@ class TicketFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_ticket, container, false)
     }
 
-    companion object {
-        fun newInstance(): TicketFragment{
-            val fragment = TicketFragment()
-            val args = Bundle()
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
 }
