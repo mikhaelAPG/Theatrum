@@ -11,12 +11,7 @@
         android:roundIcon="@mipmap/ic_theatrum_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Theatrum">
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".navigation.ProfileActivity" />
-        <activity android:name=".navigation.TicketActivity" />
-        <activity android:name=".navigation.HomeActivity" />
-        <activity android:name=".WalkthroughActivity" />
-        <activity android:name=".Authentication" />
+        <activity android:name=".ProfileActivity"></activity>
         <activity android:name=".MovieDetailsActivity" />
         <activity
             android:name=".SplashActivity"

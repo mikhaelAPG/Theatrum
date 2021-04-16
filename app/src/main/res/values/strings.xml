@@ -4,7 +4,7 @@
     <string name="ticket">Ticket</string>
     <string name="profile">Profile</string>
 
-<!--    Movie-->
+    <!--    Movie-->
     <string name="popular">Playing</string>
     <string name="most_popular_movies">Most popular movies</string>
     <string name="error_fetch_movies">Please check your internet connection</string>
@@ -13,7 +13,7 @@
     <string name="upcoming">Coming Soon</string>
     <string name="stay_updated">Stay updated with the latest movies</string>
 
-<!--    authentication-->
+    <!--    authentication-->
     <string name="create_account"><font color="#00ff00">text</font></string>
     <string name="email">Email</string>
     <string name="password">Password</string>
