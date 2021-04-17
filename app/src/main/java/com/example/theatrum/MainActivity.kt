@@ -20,19 +20,6 @@ class MainActivity : AppCompatActivity() {
         val fr = supportFragmentManager.beginTransaction()
         fr.add(R.id.fl_fragment, HomeFragment())
         fr.commit()
-
-        FirebaseAuth.getInstance().addAuthStateListener { firebaseAuth ->
-            // called once this listener is attached and every time after the auth state changes
-
-            firebaseAuth.currentUser?.let {
-                // the user is logged in
-                startActivity(Intent(this, ProfileActivity::class.java))
-
-            } ?: run {
-                // the user is logged out, log him/her in
-                signIn()
-            }
-        }
     }
 
     private fun signIn() {
