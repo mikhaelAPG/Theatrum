@@ -10,8 +10,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
 import java.io.ByteArrayOutputStream
 
@@ -35,6 +39,31 @@ class ProfileFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
+        val user :FirebaseUser = auth.currentUser
+
+        if (user != null) {
+            if (user.photoUrl != null) {
+                Picasso.get().load(user.photoUrl).into(ivProfile)
+            } else {
+                Picasso.get().load("https://picsum.photos/id/316/200").into(ivProfile)
+            }
+
+            etName.setText(user.displayName)
+            etEmail.setText(user.email)
+
+            if (user.isEmailVerified) {
+                ic_verified.visibility = View.VISIBLE
+            } else {
+                ic_unverified.visibility = View.VISIBLE
+            }
+
+            if (user.phoneNumber.isNullOrEmpty()) {
+                etPhone.setText("Masukkan nomor telephone")
+            } else {
+                etPhone.setText(user.phoneNumber)
+            }
+        }
+
         btnLogout.setOnClickListener {
             auth.signOut()
             Intent(this@ProfileFragment.context, LoginActivity::class.java).also {
@@ -45,6 +74,45 @@ class ProfileFragment : Fragment() {
 
         ivProfile.setOnClickListener {
             intentCamera()
+        }
+
+        btnUpdate.setOnClickListener {
+            val image : Uri = when {
+                ::imageUri.isInitialized -> imageUri
+                user?.photoUrl == null -> Uri.parse("https://picsum.photos/id/316/200")
+                else -> user.photoUrl
+            }
+
+            val name :String= etName.text.toString().trim()
+
+            if (name.isEmpty()) {
+                etName.error = "Nama harus diisi"
+                etName.requestFocus()
+                return@setOnClickListener
+            }
+
+            UserProfileChangeRequest.Builder()
+                    .setDisplayName(name)
+                    .setPhotoUri(image)
+                    .build().also {
+                        user?.updateProfile(it).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                Toast.makeText(activity, "Profile Updated", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(activity, "${it.exception?.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+        }
+
+        ic_unverified.setOnClickListener {
+            user?.sendEmailVerification()?.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(activity, "Email verifikasi telah dikirim", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(activity, "${it.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

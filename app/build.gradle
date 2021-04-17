@@ -87,6 +87,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.0'
     implementation 'com.google.firebase:firebase-firestore-ktx:21.4.1'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // ViewModel and LiveData
     // https://developer.android.com/jetpack/androidx/releases/lifecycle
