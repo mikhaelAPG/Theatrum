@@ -6,14 +6,18 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -41,6 +45,8 @@ class ProfileFragment : Fragment() {
 
         val user :FirebaseUser = auth.currentUser
 
+        val db = Firebase.firestore
+
         if (user != null) {
             if (user.photoUrl != null) {
                 Picasso.get().load(user.photoUrl).into(ivProfile)
@@ -62,6 +68,19 @@ class ProfileFragment : Fragment() {
             } else {
                 etPhone.setText(user.phoneNumber)
             }
+
+            db.collection("users")
+                .document("${auth.uid}").get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        Log.d("TAG", "NAMA USER : ${document.getString("name")}")
+                    } else {
+                        Log.d("TAG", "No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("TAG", "get failed with ", exception)
+                }
         }
 
         btnLogout.setOnClickListener {
@@ -113,6 +132,16 @@ class ProfileFragment : Fragment() {
                     Toast.makeText(activity, "${it.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        etEmail.setOnClickListener {
+            val actionUpdateEmail = ProfileFragmentDirections.actionUpdateEmail()
+            Navigation.findNavController(it).navigate(actionUpdateEmail)
+        }
+
+        tvChangePassword.setOnClickListener {
+            val actionChangePassword = ProfileFragmentDirections.actionChangePassword()
+            Navigation.findNavController(it).navigate(actionChangePassword)
         }
     }
 
