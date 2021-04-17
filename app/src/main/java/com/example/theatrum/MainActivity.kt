@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
             firebaseAuth.currentUser?.let {
                 // the user is logged in
                 startActivity(Intent(this, ProfileActivity::class.java))
+
             } ?: run {
                 // the user is logged out, log him/her in
                 signIn()
@@ -37,30 +38,25 @@ class MainActivity : AppCompatActivity() {
     private fun signIn() {
         // we are using Google, Email-Password, and Phone Number based authentication
         val providers = listOf(
-            AuthUI.IdpConfig.GoogleBuilder().build(),
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.PhoneBuilder().build()
+                AuthUI.IdpConfig.GoogleBuilder().build(),
+                AuthUI.IdpConfig.EmailBuilder().build(),
         )
 
         val authIntent = AuthUI.getInstance().createSignInIntentBuilder()
-            // set a custom logo to be shown on the login screen
-            .setLogo(R.mipmap.ic_launcher)
-            // set the login screen's theme
-            .setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar)
-            // define the providers that will be used
-            .setAvailableProviders(providers)
-            // disable smart lock that automatically logs in a previously logged in user
-            .setIsSmartLockEnabled(false)
-            // set the terms of service and private policy URL for your app
-            .setTosAndPrivacyPolicyUrls("example.termsofservice.com", "example.privatepolicy.com")
-            .build()
+                // set a custom logo to be shown on the login screen
+                .setLogo(R.mipmap.ic_theatrum)
+                // set the login screen's theme
+                .setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar)
+                // define the providers that will be used
+                .setAvailableProviders(providers)
+                // disable smart lock that automatically logs in a previously logged in user
+                .setIsSmartLockEnabled(false)
+                // set the terms of service and private policy URL for your app
+                .setTosAndPrivacyPolicyUrls("example.termsofservice.com", "example.privatepolicy.com")
+                .build()
 
         startActivity(authIntent)
 
-    }
-
-    fun signOut() {
-        AuthUI.getInstance().signOut(this)
     }
 
     private val onBottomNavListener = BottomNavigationView.OnNavigationItemSelectedListener { i ->
