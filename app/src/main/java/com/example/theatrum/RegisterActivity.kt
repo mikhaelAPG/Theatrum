@@ -3,14 +3,19 @@ package com.example.theatrum
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
 
     private  lateinit var auth: FirebaseAuth
+
+    val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,7 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             registerUser(email, password)
+
         }
 
         btnRegister.setOnClickListener {
@@ -54,6 +60,23 @@ class RegisterActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) {
                     if (it.isSuccessful) {
+                        // Create a new user with a first and last name
+                        val user = hashMapOf(
+                            "name" to auth.uid,
+                            "phone" to ""
+                        )
+
+                        // Add a new document with a generated ID
+                        db.collection("users")
+                            .document("${auth.uid}")
+                            .set(user)
+                            .addOnSuccessListener { documentReference ->
+                                Log.d("TAG", "User Created Successfully")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("TAG", "Error adding document", e)
+                            }
+
                         Intent(this@RegisterActivity, MainActivity::class.java).also {
                             it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(it)
@@ -62,6 +85,7 @@ class RegisterActivity : AppCompatActivity() {
                         Toast.makeText(this, it.exception?.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+
     }
 
     override fun onStart() {
