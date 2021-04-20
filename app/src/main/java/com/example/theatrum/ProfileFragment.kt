@@ -63,12 +63,6 @@ class ProfileFragment : Fragment() {
                 ic_unverified.visibility = View.VISIBLE
             }
 
-            if (user.phoneNumber.isNullOrEmpty()) {
-                etPhone.setText("Masukkan nomor telephone")
-            } else {
-                etPhone.setText(user.phoneNumber)
-            }
-
             db.collection("users")
                 .document("${auth.uid}").get()
                 .addOnSuccessListener { document ->
