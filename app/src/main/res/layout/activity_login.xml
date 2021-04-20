@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="@drawable/splash">
-
+<!--    this is comment-->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="200dp"
