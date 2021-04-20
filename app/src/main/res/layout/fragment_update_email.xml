@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UpdateEmailFragment">
+    tools:context=".UpdateEmailFragment"
+    android:background="@drawable/splash">
 
     <LinearLayout
         android:id="@+id/layoutPassword"
@@ -24,7 +25,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Masukkan Password Anda"
+            android:text="Input Password"
+            android:textColor="@color/grey"
             android:textAlignment="center" />
 
         <EditText
@@ -34,13 +36,15 @@
             android:layout_marginVertical="8dp"
             android:hint="Password"
             android:inputType="textPassword"
+            android:textColorHint="@color/grey"
+            android:backgroundTint="@color/white"
             android:singleLine="true" />
 
         <Button
             android:id="@+id/btnAuth"
-            android:layout_width="170dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:background="@color/purple"
+            android:background="@drawable/button_round"
             android:text="Confirm Password"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
@@ -63,7 +67,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Masukkan Email Baru"
+            android:text="Input New Email"
+            android:textColor="@color/grey"
             android:textAlignment="center" />
 
         <EditText
@@ -72,19 +77,20 @@
             android:layout_height="wrap_content"
             android:hint="New Email"
             android:inputType="textEmailAddress"
+            android:textColorHint="@color/grey"
+            android:backgroundTint="@color/white"
             android:singleLine="true" />
 
         <Button
             android:id="@+id/btnUpdate"
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
-            android:background="@color/purple"
+            android:background="@drawable/button_round"
             android:text="Update"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
