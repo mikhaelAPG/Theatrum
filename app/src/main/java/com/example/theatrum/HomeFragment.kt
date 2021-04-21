@@ -24,6 +24,12 @@ class HomeFragment : Fragment() {
 
     private var upcomingMoviesPage = 1
 
+    private lateinit var topRatedMovies: RecyclerView
+    private lateinit var topRatedMoviesAdapter: MoviesAdapter
+    private lateinit var topRatedMoviesLayoutMgr: LinearLayoutManager
+
+    private var topRatedMoviesPage = 1
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -53,7 +59,18 @@ class HomeFragment : Fragment() {
         upcomingMoviesAdapter = MoviesAdapter(mutableListOf()) { movie -> showMovieDetails(movie) }
         upcomingMovies.adapter = upcomingMoviesAdapter
 
+        topRatedMovies = view.findViewById(R.id.top_rated_movies)
+        topRatedMoviesLayoutMgr = LinearLayoutManager(
+            this.activity,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        topRatedMovies.layoutManager = topRatedMoviesLayoutMgr
+        topRatedMoviesAdapter = MoviesAdapter(mutableListOf()) { movie -> showMovieDetails(movie) }
+        topRatedMovies.adapter = topRatedMoviesAdapter
+
         getPopularMovies()
+        getTopRatedMovies()
         getUpcomingMovies()
 
     }
@@ -63,6 +80,14 @@ class HomeFragment : Fragment() {
                 popularMoviesPage,
                 ::onPopularMoviesFetched,
                 ::onError
+        )
+    }
+
+    private fun getTopRatedMovies() {
+        MoviesRepository.getTopRatedMovies(
+            topRatedMoviesPage,
+            ::onTopRatedMoviesFetched,
+            ::onError
         )
     }
 
@@ -77,6 +102,11 @@ class HomeFragment : Fragment() {
     private fun onPopularMoviesFetched(movies: List<Movie>) {
         popularMoviesAdapter.appendMovies(movies)
         attachPopularMoviesOnScrollListener()
+    }
+
+    private fun onTopRatedMoviesFetched(movies: List<Movie>) {
+        topRatedMoviesAdapter.appendMovies(movies)
+        attachTopRatedMoviesOnScrollListener()
     }
 
     private fun onUpcomingMoviesFetched(movies: List<Movie>) {
@@ -100,6 +130,23 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
+    private fun attachTopRatedMoviesOnScrollListener() {
+        topRatedMovies.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val totalItemCount = topRatedMoviesLayoutMgr.itemCount
+                val visibleItemCount = topRatedMoviesLayoutMgr.childCount
+                val firstVisibleItem = topRatedMoviesLayoutMgr.findFirstVisibleItemPosition()
+
+                if (firstVisibleItem + visibleItemCount >= totalItemCount / 2) {
+                    topRatedMovies.removeOnScrollListener(this)
+                    topRatedMoviesPage++
+                    getTopRatedMovies()
+                }
+            }
+        })
+    }
+
 
     private fun attachUpcomingMoviesOnScrollListener() {
         upcomingMovies.addOnScrollListener(object : RecyclerView.OnScrollListener() {

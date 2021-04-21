@@ -11,15 +11,11 @@
         android:roundIcon="@mipmap/ic_theatrum_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Theatrum">
-        <activity android:name=".ResetPasswordActivity"></activity>
+        <activity android:name=".TicketDetailActivity"></activity>
+        <activity android:name=".WalkthroughActivity" />
+        <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".MovieDetailsActivity" />
         <activity
             android:name=".SplashActivity"

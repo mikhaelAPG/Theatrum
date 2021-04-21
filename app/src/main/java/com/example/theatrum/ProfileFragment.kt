@@ -127,16 +127,6 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-
-        etEmail.setOnClickListener {
-            val actionUpdateEmail = ProfileFragmentDirections.actionUpdateEmail()
-            Navigation.findNavController(it).navigate(actionUpdateEmail)
-        }
-
-        tvChangePassword.setOnClickListener {
-            val actionChangePassword = ProfileFragmentDirections.actionChangePassword()
-            Navigation.findNavController(it).navigate(actionChangePassword)
-        }
     }
 
     private fun intentCamera() {
