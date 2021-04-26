@@ -1,5 +1,6 @@
 package com.example.theatrum
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.contentValuesOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.theatrum.db.DatabaseContract.MovieColumn.Companion.OVERVIEW
+import com.example.theatrum.db.DatabaseContract.MovieColumn.Companion.RELEASE_DATE
+import com.example.theatrum.db.DatabaseContract.MovieColumn.Companion.TITLE
+import com.example.theatrum.db.DatabaseContract.MovieColumn.Companion._ID
+import com.example.theatrum.db.MovieHelper
 
 class HomeFragment : Fragment() {
 
@@ -28,6 +35,8 @@ class HomeFragment : Fragment() {
     private lateinit var topRatedMoviesAdapter: MoviesAdapter
     private lateinit var topRatedMoviesLayoutMgr: LinearLayoutManager
 
+    private lateinit var movieHelper: MovieHelper
+
     private var topRatedMoviesPage = 1
 
 
@@ -39,6 +48,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        movieHelper = MovieHelper.getIntance(requireActivity())
+        movieHelper.open()
         popularMovies = view.findViewById(R.id.popular_movies)
         popularMoviesLayoutMgr = LinearLayoutManager(
                 this.activity,
@@ -99,19 +110,50 @@ class HomeFragment : Fragment() {
         )
     }
 
+    private fun movieToContentValues(movies: List<Movie>):ArrayList<ContentValues>{
+        var listToContent = ArrayList<ContentValues>()
+        for(movie in movies){
+            var contentValue = ContentValues()
+            contentValue.put(_ID, movie.id)
+            contentValue.put(TITLE, movie.title)
+            contentValue.put(OVERVIEW, movie.overview)
+            contentValue.put(RELEASE_DATE, movie.releaseDate)
+            listToContent.add(contentValue)
+        }
+        return listToContent
+    }
+
     private fun onPopularMoviesFetched(movies: List<Movie>) {
         popularMoviesAdapter.appendMovies(movies)
         attachPopularMoviesOnScrollListener()
+
+        movieHelper.delete()
+        val listTemp = movieToContentValues(movies)
+        for(list in listTemp) {
+            movieHelper.insert(list)
+        }
     }
 
     private fun onTopRatedMoviesFetched(movies: List<Movie>) {
         topRatedMoviesAdapter.appendMovies(movies)
         attachTopRatedMoviesOnScrollListener()
+
+        movieHelper.delete()
+        val listTemp = movieToContentValues(movies)
+        for(list in listTemp) {
+            movieHelper.insert(list)
+        }
     }
 
     private fun onUpcomingMoviesFetched(movies: List<Movie>) {
         upcomingMoviesAdapter.appendMovies(movies)
         attachUpcomingMoviesOnScrollListener()
+
+        movieHelper.delete()
+        val listTemp = movieToContentValues(movies)
+        for(list in listTemp) {
+            movieHelper.insert(list)
+        }
     }
 
 
@@ -170,6 +212,7 @@ class HomeFragment : Fragment() {
 
     private fun showMovieDetails(movie: Movie) {
         val intent = Intent(this.activity, MovieDetailsActivity::class.java)
+        intent.putExtra("id", movie.id)
         intent.putExtra(MOVIE_BACKDROP, movie.backdropPath)
         intent.putExtra(MOVIE_POSTER, movie.posterPath)
         intent.putExtra(MOVIE_TITLE, movie.title)

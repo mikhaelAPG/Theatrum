@@ -4,6 +4,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission
+        android:name="com.example.theatrum.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.example.theatrum.WRITE_DATABASE"
+        android:protectionLevel="normal" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_theatrum"
@@ -11,7 +18,8 @@
         android:roundIcon="@mipmap/ic_theatrum_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Theatrum">
-        <activity android:name=".TicketDetailActivity"></activity>
+        <activity android:name=".showTrailer"></activity>
+        <activity android:name=".TicketDetailActivity" />
         <activity android:name=".WalkthroughActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".RegisterActivity" />
