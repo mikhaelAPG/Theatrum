@@ -20,6 +20,33 @@ object MoviesRepository {
         api = retrofit.create(Api::class.java)
     }
 
+    fun getTrailer(
+        id: Int = 900,
+        onSuccess:(result:ArrayList<Trailer>)->Unit
+    ){
+        api.getTrailer(id = id)
+            .enqueue(object : Callback<GetTrailerResponse> {
+                override fun onResponse(
+                    call: Call<GetTrailerResponse>,
+                    response: Response<GetTrailerResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        val result = responseBody?.result
+                        if (result != null) {
+                            onSuccess(result)
+                        }
+                    }else{
+                        Log.d("CCCCC","error")
+                    }
+                }
+
+                override fun onFailure(call: Call<GetTrailerResponse>, t: Throwable) {
+                    Log.d("DDDDD",t.toString())
+                }
+            })
+    }
+
     fun getPopularMovies(
         page: Int = 1,
         onSuccess: (movies: List<Movie>) -> Unit,

@@ -1,7 +1,10 @@
 package com.example.theatrum
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -24,10 +27,12 @@ class MovieDetailsActivity : AppCompatActivity() {
     private lateinit var rating: RatingBar
     private lateinit var releaseDate: TextView
     private lateinit var overview: TextView
+    private lateinit var play_btn: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
+        val extras = intent.extras
 
         backdrop = findViewById(R.id.movie_backdrop)
         poster = findViewById(R.id.movie_poster)
@@ -35,14 +40,28 @@ class MovieDetailsActivity : AppCompatActivity() {
         rating = findViewById(R.id.movie_rating)
         releaseDate = findViewById(R.id.movie_release_date)
         overview = findViewById(R.id.movie_overview)
+        play_btn = findViewById(R.id.play_trailer)
 
-        val extras = intent.extras
+        play_btn.setOnClickListener{
+            if (extras != null) {
+                MoviesRepository.getTrailer(extras.getLong("id").toInt(), ::showTrailer)
+            }
+        }
+
+        Log.d("BBBBBB", extras?.getLong("id").toString())
 
         if (extras != null) {
             populateDetails(extras)
         } else {
             finish()
         }
+    }
+
+    private fun showTrailer(trailer: ArrayList<Trailer>){
+        Log.d("AAAAA",trailer.toString())
+        val intent = Intent(this, showTrailer::class.java)
+        intent.putExtra("key", trailer[0].key)
+        startActivity(intent)
     }
 
     private fun populateDetails(extras: Bundle) {
